@@ -26,6 +26,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        server-username: ${{ github.actor }} # L'utente che esegue l'Action
+        server-password: ${{ secrets.PAT_TOKEN }} # Il tuo Segreto GitHub contenente il PAT
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
