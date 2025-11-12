@@ -11,8 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  build_and_deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,4 +38,4 @@ jobs:
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
