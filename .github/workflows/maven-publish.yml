@@ -26,7 +26,7 @@ jobs:
         distribution: 'temurin'
         server-id: github
         server-username: ${{ github.actor }}
-        server-password: ${{ github.token }}
+        server-password: ${{ secrets.PAT_TOKEN }}
         settings-path: ${{ github.workspace }}
 
     - name: Build and Package with Maven
@@ -35,4 +35,4 @@ jobs:
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -DskipTests
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
