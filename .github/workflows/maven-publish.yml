@@ -26,15 +26,23 @@ jobs:
         distribution: 'temurin'
         server-id: github
         server-username: ${{ github.actor }}
-        server-password: ${{ secrets.GITHUB_TOKEN }} 
+        server-password: ${{ secrets.GITHUB_TOKEN }}
+        settings-path: ${{ github.workspace }}
 
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      env:
+        MAVEN_CONFIG: /github/home/.m2
+        MAVEN_OPTS: "-Dmaven.repo.local=/github/home/.m2"
+        M2_HOME: /github/home/.m2
+      run: |
+        env
+        ls -la ~/.m2
+        mvn -X -B package --file pom.xml
 
     - name: Build and Deploy with Maven
       run: mvn clean deploy -DskipTests
       
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
