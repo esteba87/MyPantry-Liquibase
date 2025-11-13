@@ -24,13 +24,33 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'maven'
-        server-id: github
-        server-username: ${{ github.actor }}
-        server-password: ${{ secrets.PAT_TOKEN }}
-
-    - name: Build and Package with Maven
-      run: mvn clean package -DskipTests
+    - name: Create settings.xml for Maven
+      run: |
+        # Crea la directory se non esiste
+        mkdir -p ~/.m2
+        
+        # Scrive il file settings.xml usando le credenziali dai secrets
+        # Questo esempio usa un PAT, ma puoi adattarlo per GITHUB_TOKEN
+        echo "<settings xmlns='http://maven.apache.org/SETTINGS/1.0.0'
+          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+          xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd'>
+          <servers>
+            <server>
+              <id>github</id>
+              <username>${env.GHP_USER}</username>
+              <password>${env.GHP_TOKEN}</password>
+            </server>
+          </servers>
+        </settings>" > ~/.m2/settings.xml
+      env:
+        # Usa il proprietario del repo (o il tuo utente) come username
+        GHP_USER: ${{ github.repository_owner }} 
+        # Usa il PAT salvato nei secrets
+        GHP_TOKEN: ${{ secrets.PAT_TOKEN }} 
+        # --- Se usi GITHUB_TOKEN ---
+        # GHP_USER: ${{ github.actor }}
+        # GHP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Publish to GitHub Packages Apache Maven
       run: mvn -B deploy
