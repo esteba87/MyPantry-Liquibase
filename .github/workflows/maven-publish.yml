@@ -26,8 +26,8 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
         server-id: github
-        server-username: ${{ secrets.GITHUB_ACTOR }}
-        server-password: ${{ secrets.GITHUB_TOKEN }}
+        server-username: ${{ github.actor }}
+        server-password: ${{ github.token }}
 
     - name: Build and Package with Maven
       run: mvn clean package -DskipTests --file pom.xml
