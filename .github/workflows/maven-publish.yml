@@ -27,7 +27,6 @@ jobs:
     - name: Create settings.xml for Maven
       run: |
         # Crea la directory se non esiste
-        mkdir ~/.m2
         cd ~/.m2
         touch settings.xml
         
@@ -55,4 +54,4 @@ jobs:
         # GHP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn -B deploy
+      run: mvn --settings ettings.xml --file pom.xml -B deploy
