@@ -27,23 +27,24 @@ jobs:
     - name: Create settings.xml for Maven
       run: |
         # Crea la directory se non esiste
-        cd ~/.m2
-        touch settings.xml
+        touch ~/.m2/settings.xml
         
         # Scrive il file settings.xml usando le credenziali dai secrets
         # Questo esempio usa un PAT, ma puoi adattarlo per GITHUB_TOKEN
-        echo "<settings xmlns='http://maven.apache.org/SETTINGS/1.0.0'
-          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-          xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0
-                              https://maven.apache.org/xsd/settings-1.0.0.xsd'>
+        cat << EOF > ~/.m2/settings.xml
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
           <servers>
             <server>
-              <id>github</id>
-              <username>${env.GHP_USER}</username>
-              <password>${env.GHP_TOKEN}</password>
+              <id>github</id> 
+              <username>$GHP_USER</username>
+              <password>$GHP_TOKEN</password>
             </server>
           </servers>
-        </settings>" > ~/.m2/settings.xml
+        </settings>
+        EOF
       env:
         # Usa il proprietario del repo (o il tuo utente) come username
         GHP_USER: ${{ github.repository_owner }} 
