@@ -26,11 +26,11 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
         server-id: github
-        server-username: esteba87
+        server-username: ${{ github.actor }}
         server-password: ${{ secrets.PAT_TOKEN }}
 
     - name: Build and Package with Maven
-      run: mvn clean package -DskipTests --file pom.xml
+      run: mvn clean package -DskipTests
       
     - name: Publish to GitHub Packages Apache Maven
       run: mvn -B deploy
