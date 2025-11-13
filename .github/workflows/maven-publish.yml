@@ -7,7 +7,7 @@ on:
   release:
     types: [created]
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -24,15 +24,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'maven'
         server-id: github
-        server-username: ${{ github.actor }}
-        server-password: ${{ secrets.PAT_TOKEN }}
-        settings-path: ${{ github.workspace }}
+        server-username: GITHUB_ACTOR
+        server-password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and Package with Maven
-      run: mvn -B clean package --file pom.xml
+      run: mvn clean package -DskipTests --file pom.xml
       
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -DskipTests
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      run: mvn -B deploy
