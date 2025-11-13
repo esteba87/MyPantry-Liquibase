@@ -55,4 +55,4 @@ jobs:
         # GHP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn --settings ettings.xml --file pom.xml -B deploy
+      run: mvn --settings settings.xml --file pom.xml -B deploy
