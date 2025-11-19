@@ -11,6 +11,12 @@ import liquibase.changelog.IncludeAllFilter;
 public class XmlFilesFilter implements IncludeAllFilter {
     @Override
     public boolean include(String changeLogPath) {
-        return !changeLogPath.contains(".bak.");
+        // Controllo di sicurezza per null
+        if (changeLogPath == null) {
+            return false;
+        }
+        
+        // Includi SOLO se il file finisce con ".xml" (case-insensitive per sicurezza)
+        return changeLogPath.toLowerCase().endsWith(".xml");
     }
 }
