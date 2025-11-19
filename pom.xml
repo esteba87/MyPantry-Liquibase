@@ -7,7 +7,7 @@
     <groupId>it.mypantry</groupId>
     <artifactId>my-pantry-liquibase</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <dependencies>
         <!-- Liquibase Core -->
